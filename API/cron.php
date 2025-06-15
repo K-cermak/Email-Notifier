@@ -1,22 +1,55 @@
 <?php
-// Nastavení připojení
-$hostname = '{imap.example.com:993/imap/ssl}INBOX'; // Nahraď adresou svého IMAP serveru
-$username = 'tvoje@email.cz';                       // Tvůj e-mail
-$password = 'tvojeheslo';                           // Tvé heslo
+    if (php_sapi_name() !== 'cli' && !defined('API_UPDATE')) {
+        http_response_code(403);
+        echo 'Access denied. This script can only be run from the command line.';
+        exit;
+    }
 
-// Připojení ke schránce
-$inbox = imap_open($hostname, $username, $password) or die('Nelze se připojit: ' . imap_last_error());
+    printStatus('[INFO] Starting email status check...');
 
-// Vyhledání nepřečtených zpráv
-$emails = imap_search($inbox, 'UNSEEN');
+    require_once 'credentials.php';
+    global $emails;
 
-if ($emails === false) {
-    echo "Žádné nepřečtené e-maily nebo chyba při čtení.";
-} else {
-    $pocet = count($emails);
-    echo "Počet nepřečtených e-mailů: $pocet";
-}
+    $status = [];
 
-// Zavření spojení
-imap_close($inbox);
+    foreach ($emails as $email => $credentials) {
+        printStatus("[INFO] Checking email: $email");
+
+        $hostname = $credentials['host'];
+        $username = $credentials['username'];
+        $password = $credentials['password'];
+
+        $inbox = imap_open($hostname, $username, $password);
+        if ($inbox === false) {
+            printStatus("[WARNING] Failed to connect to $email: " . imap_last_error() . "\n");
+            $status[$email] = 'failed';
+            continue;
+        }
+
+        $unseen = imap_search($inbox, 'UNSEEN');
+
+        $count = 0;
+        if ($unseen !== false) {
+            $count = count($unseen);
+        }
+
+        imap_close($inbox);
+
+        $status[$email] = $count;
+    }
+
+    $status['timestamp'] = date('Y-m-d H:i:s');
+
+    $statusFile = 'status.json';
+    if (file_put_contents($statusFile, json_encode($status, JSON_PRETTY_PRINT))) {
+        printStatus('[INFO] Email status check completed successfully.');
+    } else {
+        printStatus("[ERROR] Failed to write status to $statusFile.");
+    }
+
+    function printStatus($message) {
+        if (!defined('API_UPDATE')) {
+            echo "\n[INFO] $message";
+        }
+    }
 ?>
