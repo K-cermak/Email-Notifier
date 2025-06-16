@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Email Notifier</title>
+        <link rel="stylesheet" href="libraries/bootstrap.css">
+        <script src="libraries/bootstrap.js" async></script>
+        <script src="popup.js" async></script>
+        <meta charset="UTF-8">
+        <style>
+        body, html {
+            height: 100%;
+        }
+        .center-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-box {
+            min-width: 300px;
+            max-width: 400px;
+            width: 100%;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="center-container">
+            <div class="form-box rounded px-2 py-1">
+                <h4 class="text-center mb-4">Email Notifier</h4>
+
+                <div class="d-flex justify-content-between">
+                    <button id="refresh"
+                        class="btn btn-link text-decoration-none">🔄
+                        Refresh</button>
+                    <a href="options.html"
+                        class="btn btn-link text-decoration-none">⚙️
+                        Settings</a>
+                </div>
+
+                <div id="errorMessage" class="alert alert-danger d-none mt-3"
+                    role="alert">
+                    <strong>Error:</strong> <span id="errorText"></span>
+                </div>
+
+                <ul class="list-group my-4" id="emails"></ul>
+
+                <div class="d-flex justify-content-center">
+                    <span class="timestamp text-muted" id="timestamp"></span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

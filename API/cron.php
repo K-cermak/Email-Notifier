@@ -1,4 +1,7 @@
 <?php
+    error_reporting(0);
+    ini_set('display_errors', '0');
+    
     if (php_sapi_name() !== 'cli' && !defined('API_UPDATE')) {
         http_response_code(403);
         echo 'Access denied. This script can only be run from the command line.';
