@@ -27,6 +27,10 @@ document.querySelector("#refresh").addEventListener("click", () => {
     });
 });
 
+chrome.storage.local.get("emailData", ({ emailData }) => {
+    renderEmails(emailData);
+});
+
 function fetchData() {
     chrome.storage.sync.get(["endpoint", "token"], ({ endpoint, token }) => {
         fetch(`${endpoint}?action=get&token=${token}`)
@@ -37,10 +41,12 @@ function fetchData() {
                 return res.json();
             })
             .then((emailData) => {
-                chrome.storage.local.set({ emailData }, () => {
-                    renderEmails(emailData);
+                const entries = Object.entries(emailData);
 
-                    let totalUnread = Object.entries(emailData)
+                chrome.storage.local.set({ emailData: entries }, () => {
+                    renderEmails(entries);
+
+                    let totalUnread = entries
                         .filter(([key]) => key !== "timestamp")
                         .reduce((sum, [, value]) => {
                             const num = parseInt(value);
@@ -58,8 +64,8 @@ function fetchData() {
     });
 }
 
-function renderEmails(emailData) {
-    if (!emailData) {
+function renderEmails(entries) {
+    if (!entries || !Array.isArray(entries)) {
         showError("No email data found.");
         return;
     }
@@ -68,19 +74,24 @@ function renderEmails(emailData) {
     emailsDiv.innerHTML = "";
     timestampDiv.textContent = "";
 
-    Object.entries(emailData).forEach(([email, count]) => {
+    entries.forEach(([email, count]) => {
         if (email === "timestamp") {
             timestampDiv.textContent = `Last update: ${count}`;
         } else {
             const listItem = document.createElement("li");
-            listItem.className = "list-group-item d-flex justify-content-between";
+            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
 
             const divContent = document.createElement("div");
             divContent.className = "fw-bold";
             divContent.textContent = email;
 
             const badge = document.createElement("span");
-            badge.className = "badge bg-primary rounded-pill";
+            if (count === 0) {
+                badge.className = "badge bg-secondary rounded-pill";
+            } else {
+                badge.className = "badge bg-primary rounded-pill";
+            }
+
             badge.textContent = count;
             badge.style.marginTop = "5px";
 
@@ -91,13 +102,7 @@ function renderEmails(emailData) {
     });
 }
 
-chrome.storage.local.get("emailData", ({ emailData }) => {
-    renderEmails(emailData);
-});
-
 function showError(message) {
     errorBox.classList.remove("d-none");
     errorText.textContent = message;
-    emailsDiv.innerHTML = "";
-    timestampDiv.textContent = "";
 }

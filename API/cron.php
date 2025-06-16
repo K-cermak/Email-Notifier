@@ -52,7 +52,7 @@
 
     function printStatus($message) {
         if (!defined('API_UPDATE')) {
-            echo "\n[INFO] $message";
+            echo "\n$message";
         }
     }
 ?>

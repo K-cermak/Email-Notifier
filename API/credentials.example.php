@@ -3,14 +3,14 @@
 
     $emails = [
         'first@gmail.com' => [
-            "host" => '{imap.gmail.com:993/imap/ssl}INBOX', //https://www.php.net/manual/en/function.imap-open.php
-            "username" => 'first@gmail.com',
-            "password" => 'password123',
+            'host' => '{imap.gmail.com:993/imap/ssl}INBOX', //https://www.php.net/manual/en/function.imap-open.php
+            'username' => 'first@gmail.com',
+            'password' => 'password123',
         ],
         'second@yahoo.com' => [
-            "host" => '{imap.mail.yahoo.com:993/imap/ssl}INBOX', //https://www.php.net/manual/en/function.imap-open.php
-            "username" => 'second@yahoo.com',
-            "password" => 'password42',
+            'host' => '{imap.mail.yahoo.com:993/imap/ssl}INBOX', //https://www.php.net/manual/en/function.imap-open.php
+            'username' => 'second@yahoo.com',
+            'password' => 'password42',
         ],
     ];
 ?>
