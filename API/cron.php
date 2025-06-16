@@ -45,9 +45,9 @@
 
     $statusFile = 'status.json';
     if (file_put_contents($statusFile, json_encode($status, JSON_PRETTY_PRINT))) {
-        printStatus('[INFO] Email status check completed successfully.');
+        printStatus("[INFO] Email status check completed successfully.\n");
     } else {
-        printStatus("[ERROR] Failed to write status to $statusFile.");
+        printStatus("[ERROR] Failed to write status to $statusFile.\n");
     }
 
     function printStatus($message) {
