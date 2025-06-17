@@ -17,6 +17,7 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 ## Installation
 ### Backend
 
+> [!NOTE]  
 > You need to have a server with a PHP and need to be able to access it from the browser, where you install the extension.
 
 1. Download the latest release and move files from the `API` folder to your web server.
