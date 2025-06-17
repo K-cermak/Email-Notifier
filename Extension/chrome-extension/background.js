@@ -25,7 +25,7 @@ function fetchData() {
             return;
         }
 
-        fetch(endpoint + '?action=get&token=' + token)
+        fetch(`${endpoint}?action=get&token=${token}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error('Network response was not ok: ' + res.statusText);
@@ -33,8 +33,10 @@ function fetchData() {
                 return res.json();
             })
             .then((emailData) => {
-                chrome.storage.local.set({ emailData }, () => {
-                    let totalUnread = Object.entries(emailData)
+                const entries = Object.entries(emailData);
+
+                chrome.storage.local.set({ emailData: entries }, () => {
+                    let totalUnread = entries
                         .filter(([key]) => key !== 'timestamp')
                         .reduce((sum, [, value]) => {
                             const num = parseInt(value);
