@@ -7,22 +7,22 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 <br>
 
 ## Description
-- Many e-mail inboxes? Find out how many unread emails you have with a simple browser extension.
-- Available as a self-hosted backend and browser extension for Chrome (Chromium based browsers).
+- Many e-mail inboxes? Find out how many unread emails you have with this simple browser extension.
+- Available as a self-hosted backend (API) and browser extension for Chrome (Chromium based browsers).
 - Periodically checks your inboxes and sums up the number of unread emails.
 - Especially useful for people with multiple email accounts.
 
 <br>
 
 ## Installation
-### Backend
+### Backend (API)
 
 > [!NOTE]  
 > You need to have a server with a PHP and need to be able to access it from the browser, where you install the extension.
 
 1. Download the latest release and move files from the `API` folder to your web server.
-2. Copy the `credentials.example.php` file to `credentials.php`.
-3. Open the `cretentials.php` file and set:
+2. Rename the `credentials.example.php` file to `credentials.php`.
+3. Open the `credentials.php` file and set:
    - `API_TOKEN`: A unique token for your API. You can generate it using any random string generator. This token will be used in the extension to authenticate with the API, but it cannot be used to optain the email inboxes passwords.
    - `$emails`: An array of email accounts you want to check. Each account should have the following structure:
 
@@ -30,7 +30,7 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 
     ```php
     'name' => [
-        'host' => '{imap.example.com:993/imap/ssl}INBOX', //https://www.php.net/manual/en/function.imap-open.php
+        'host' => '{imap.example.com:993/imap/ssl}INBOX', //More info: https://www.php.net/manual/en/function.imap-open.php
         'username' => 'email@example.com',
         'password' => 'YourPassword',
     ],
@@ -39,17 +39,17 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 
 <br>
 
-4. Now you should set a cron job to run the `cron.php` file periodically (e.g. every 5 minutes). This will update the number of unread emails. Example cron job command:
+4. Now you should set a cron job to run the `cron.php` file periodically (e.g. every 5 minutes). This will update the number of unread emails. For example, edit your crontab with `crontab -e` and add the following line:
 
 <br>
 
-   ```
+   ```bash
    */5 * * * * php /path/to/your/api/cron.php
    ```
 
-<br >
+<br>
 
-5. Make sure, that PHP IMAP extension is installed and enabled on your server. You can check this by creating a simple PHP file with `phpinfo()` function and looking for the IMAP section.
+5. Make sure, that PHP IMAP extension is installed and enabled on your server. You can check this by creating a simple PHP file with `phpinfo()` function and check for the IMAP section.
     - On Ubuntu, you can install it with:
       ```bash
       sudo apt-get install php-imap
