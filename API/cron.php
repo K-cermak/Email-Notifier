@@ -44,8 +44,8 @@
     }
 
     $status['timestamp'] = date('Y-m-d H:i:s');
-
-    $statusFile = 'status.json';
+    
+    $statusFile = __DIR__ . '/status.json';
     if (file_put_contents($statusFile, json_encode($status, JSON_PRETTY_PRINT))) {
         printStatus("[INFO] Email status check completed successfully.\n");
     } else {
