@@ -7,13 +7,13 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 <br>
 
 ## Description
-- Many e-mail inboxes? Find out how many unread emails you have with this simple browser extension.
-- Available as a self-hosted backend (API) and browser extension for Chrome (Chromium based browsers).
-- Periodically checks your inboxes and sums up the number of unread emails.
-- Especially useful for people with multiple email accounts.
+- Have many email inboxes? See how many unread emails you have at a glance with this simple browser extension.
+- Consists of a self-hosted backend (API) and a browser extension for Chrome (and other Chromium-based browsers).
+- Periodically checks your inboxes and adds up the number of unread emails.
+- Especially useful if you manage multiple email accounts.
 - Supports two types of email sources:
-  - **IMAP** – direct connection to your email server.
-  - **File (URL)** – fetches unread email count from a remote JSON file. Ideal for integrating with services like **Power BI**, **OneDrive**, or any external system that can produce a JSON status file.
+  - **IMAP** – connects directly to your email server.
+  - **File (URL)** – fetches the unread email count from a remote JSON file. Ideal for integrating with services like **Power BI**, **OneDrive**, or any external system that can produce a JSON status file.
 
 <br>
 
@@ -21,13 +21,13 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 ### Backend (API)
 
 > [!NOTE]  
-> You need to have a server with PHP and need to be able to access it from the browser where you install the extension.
+> You need a server with PHP that is reachable from the browser where you install the extension.
 
-1. Download the latest release and move files from the `API` folder to your web server.
-2. Rename the `credentials.example.php` file to `credentials.php`.
-3. Open the `credentials.php` file and set:
-   - `API_TOKEN`: A unique token for your API. You can generate it using any random string generator. This token will be used in the extension to authenticate with the API, but it cannot be used to obtain the email inboxes passwords.
-   - `$emails`: An array of email accounts you want to check. Each account should have a `type` key (`imap` or `file`) and the corresponding configuration:
+1. Download the latest release and copy the files from the `API` folder to your web server (including the hidden `.htaccess` file).
+2. Rename `credentials.example.php` to `credentials.php`.
+3. Open `credentials.php` and set:
+   - `API_TOKEN`: A unique token for your API. You can generate it with any random string generator. The extension uses this token to authenticate with the API; it cannot be used to obtain your email passwords.
+   - `$emails`: An array of the email accounts you want to check. Each account must have a `type` key (`imap` or `file`) and the corresponding configuration:
 
    <br>
 
@@ -47,7 +47,7 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
     ```php
     'third@outlook.com' => [
         'type' => 'file',
-        'url' => 'https://example.com/third_outlook_status.json', // URL to the JSON file containing the status
+        'url' => 'https://example.com/third_outlook_status.json', // URL of the JSON file containing the status
         'status_too_old' => 3600, // After this many seconds, the status is considered stale and marked as failed
     ],
     ```
@@ -62,11 +62,11 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
     ```
 
     - `unread` – number of unread emails (integer).
-    - `ts` – timestamp of the last update (parseable date/time string). If the timestamp is older than `status_too_old` seconds, the status is considered stale and marked as failed.
+    - `ts` – timestamp of the last update (any parseable date/time string). If the timestamp is older than `status_too_old` seconds, the status is considered stale and marked as failed.
 
 <br>
 
-4. Now you should set a cron job to run the `cron.php` file periodically (e.g. every 5 minutes). This will update the number of unread emails. For example, edit your crontab with `crontab -e` and add the following line:
+4. Next, set up a cron job that runs `cron.php` periodically (e.g. every 5 minutes) to update the unread email counts. For example, edit your crontab with `crontab -e` and add the following line:
 
 <br>
 
@@ -76,7 +76,7 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 
 <br>
 
-5. Make sure that PHP IMAP extension is installed and enabled on your server (required for IMAP type accounts). You can check this by creating a simple PHP file with `phpinfo()` function and checking for the IMAP section.
+5. Make sure the PHP IMAP extension is installed and enabled on your server (required for IMAP accounts). You can check this by creating a simple PHP file that calls `phpinfo()` and looking for the IMAP section.
     - On Ubuntu, you can install it with:
       ```bash
       sudo apt-get install php-imap
@@ -84,8 +84,29 @@ By Karel Cermak | [Karlosoft](https://karlosoft.com).
 
 <br>
 
-6. Great, your backend is ready! You can now access the API at `https://yourdomain.com/api.php` (or wherever you placed the files).
+6. Your backend is ready! You can now access the API at `https://yourdomain.com/api.php` (or wherever you placed the files).
 
+> [!IMPORTANT]  
+> The included `.htaccess` file blocks direct web access to everything except `api.php` (e.g. `status.json` and `credentials.php`). It only works on Apache. On other web servers (e.g. nginx), set up an equivalent rule in the server configuration.
+
+<br>
+
+### Extension
+1. Open the Chrome extensions page: `chrome://extensions/`.
+2. Enable "Developer mode" in the top-right corner.
+3. Click "Load unpacked" and select the `Extension/chrome-extension` folder from the downloaded release.
+
+<br>
+
+4. Open the extension and click the `⚙️ Settings` button.
+5. Set the API URL to your backend URL (e.g. `https://yourdomain.com/api.php`).
+6. Set the API token to the token you defined in `credentials.php`.
+7. Set the refresh interval in minutes.
+8. Click "Save" and the extension will start checking your email accounts.
+
+<br>
+
+- Click the `🔄 Refresh` button to refresh your email accounts manually and get the latest data immediately.
 
 <br>
 
@@ -100,7 +121,7 @@ Returns the current unread email counts for all configured accounts.
 GET api.php?action=get&token=YOUR_API_TOKEN
 ```
 
-**Response example:**
+**Example response:**
 ```json
 {
     "first@gmail.com": 10,
@@ -125,23 +146,3 @@ GET api.php?action=update&token=YOUR_API_TOKEN
     "status": "update_completed"
 }
 ```
-
-<br>
-<br>
-
-### Extension
-1. Go to the Chrome Extensions: `chrome://extensions/`.
-2. Enable "Developer mode" in the top right corner.
-3. Click on "Load unpacked" and select the `Extension/chrome-extension` folder from the downloaded release.
-
-<br>
-
-4. Open the extension and click on the `⚙️ Settings` button.
-5. Set the API URL to your backend URL (e.g. `https://yourdomain.com/api.php`).
-6. Set the API token to the token you set in the `credentials.php` file.
-7. Set the refresh interval in minutes.
-8. Click on "Save" and the extension will start checking your email accounts.
-
-<br>
-
-- By clicking on the `🔄 Refresh` button, you can manually refresh the email account and get the newest data immediately.

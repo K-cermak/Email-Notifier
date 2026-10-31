@@ -17,7 +17,7 @@
         'third@outlook.com' => [
             'type' => 'file',
             'url' => 'https://example.com/third_outlook_status.json', // URL to the JSON file containing the status for this email
-            'status_too_old' => 3600 // after this many seconds, the status is considered and considered failed
+            'status_too_old' => 3600 // After this many seconds, the status is considered stale and marked as failed
         ],
     ];
 ?>

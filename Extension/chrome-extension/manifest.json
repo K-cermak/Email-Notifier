@@ -2,7 +2,7 @@
     "name": "Email Notifier",
     "version": "1.0",
     "manifest_version": 3,
-    "description": "This extension communicates with your Email Notifier API and displays undread emails count in the browser action icon.",
+    "description": "Connects to your Email Notifier API and shows the number of unread emails on the toolbar icon.",
     "permissions": ["storage", "alarms"],
     "background": {
         "service_worker": "background.js"

@@ -6,7 +6,7 @@ const errorText = document.querySelector("#errorMessage #errorText");
 document.querySelector("#refresh").addEventListener("click", () => {
     chrome.storage.sync.get(["endpoint", "token"], ({ endpoint, token }) => {
         if (!endpoint || !token) {
-            showError("Endpoint or token is not set.");
+            showError("API URL or token is not set. Please check the settings.");
             return;
         }
 
