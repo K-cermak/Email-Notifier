@@ -39,7 +39,7 @@
             continue;
         }
 
-        printStatus("[INFO] Retrieved count from file for $email: $count");
+        printStatus("[INFO] Retrieved count for $email: $count");
         $status[$email] = $count;
     }
 
@@ -59,6 +59,12 @@
     }
 
     function checkImap($hostname, $username, $password) {
+        // Prevent hanging on unresponsive servers (seconds)
+        imap_timeout(IMAP_OPENTIMEOUT, 10);
+        imap_timeout(IMAP_READTIMEOUT, 10);
+        imap_timeout(IMAP_WRITETIMEOUT, 10);
+        imap_timeout(IMAP_CLOSETIMEOUT, 10);
+
         $inbox = imap_open($hostname, $username, $password);
         if ($inbox === false) {
             printStatus("[ERROR] Failed to connect to IMAP server for $username: " . imap_last_error());

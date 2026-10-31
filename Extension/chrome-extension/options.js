@@ -12,11 +12,14 @@ chrome.storage.sync.get(['endpoint', 'token', 'interval'], (data) => {
 document.querySelector('#save').addEventListener('click', () => {
     saveMessage.classList.add('d-none');
 
+    const minutes = Math.max(1, parseInt(interval.value) || 5);
+    interval.value = minutes;
+
     chrome.storage.sync.set(
         {
             endpoint: endpoint.value,
             token: token.value,
-            interval: parseInt(interval.value),
+            interval: minutes,
         },
         () => {
             setTimeout(() => {

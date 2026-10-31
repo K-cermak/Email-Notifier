@@ -11,7 +11,7 @@
         echo json_encode(['error' => 'api_token_not_defined']);
         exit;
     }
-    if (!isset($_GET['token']) || $_GET['token'] !== API_TOKEN) {
+    if (!isset($_GET['token']) || !is_string($_GET['token']) || !hash_equals(API_TOKEN, $_GET['token'])) {
         http_response_code(403);
         echo json_encode(['error' => 'invalid_api_token']);
         exit;

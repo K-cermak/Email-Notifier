@@ -14,7 +14,7 @@ chrome.alarms.onAlarm.addListener(() => {
 function setupAlarm() {
     chrome.storage.sync.get(['interval'], ({ interval }) => {
         chrome.alarms.create('checkEmails', {
-            periodInMinutes: parseInt(interval || 5),
+            periodInMinutes: Math.max(1, parseInt(interval) || 5),
         });
     });
 }
