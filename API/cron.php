@@ -88,6 +88,7 @@
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_COOKIEFILE     => '',
             CURLOPT_TIMEOUT        => 15,
             CURLOPT_USERAGENT      => 'Email Status Checker/1.0',
         ]);
