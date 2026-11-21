@@ -1,6 +1,6 @@
 # Email Notifier Extension
 
-By Karel Cermak | [Karlosoft](https://karlosoft.com).
+By Karel Čermák | [Karlosoft](https://karlosoft.com).
 
 <img src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/github.png" width="400" alt="Email Notifier Extension">
 
