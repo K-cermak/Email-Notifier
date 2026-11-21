@@ -1,8 +1,17 @@
-# Email Notifier Extension
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/logo.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/logo-dark.svg">
+        <img alt="Email Notifier" src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/logo-dark.svg" width="700">
+    </picture>
+    <br>
+    <strong>Browser extension that shows the total number of unread emails across all your inboxes.</strong>
+</p>
 
-By Karel Čermák | [Karlosoft](https://karlosoft.com).
+<br>
+<br>
 
-<img src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/github.png" width="400" alt="Email Notifier Extension">
+<img src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/github.png" width="400" alt="Email Notifier Extension showcase">
 
 <br>
 
