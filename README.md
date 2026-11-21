@@ -6,12 +6,14 @@
     </picture>
     <br>
     <strong>Browser extension that shows the total number of unread emails across all your inboxes.</strong>
+
+    <br>
+    <br>
+
+    <img src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/github.png" width="400" alt="Email Notifier Extension showcase">
+
 </p>
 
-<br>
-<br>
-
-<img src="https://cdn.karlosoft.com/cdn-data/ks/img/emailnotifier/github.png" width="400" alt="Email Notifier Extension showcase">
 
 <br>
 
